@@ -2,7 +2,7 @@
 import numpy as np
 from scipy import stats
 
-from base import Bandit
+from casino.bandits.base import Bandit
 
 
 class EpsilonGreedy(Bandit):
