@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 class GenericBandit(ABC):
 
     @abstractmethod
-    def __init__(self, n_arms: int, *args, **kwargs):
+    def __init__(self, n_arms: int, *args, **kwargs) -> None:
         raise NotImplementedError
 
     @abstractmethod
@@ -25,7 +25,7 @@ class GenericBandit(ABC):
 class Bandit(GenericBandit):
 
     @abstractmethod
-    def __init__(self, n_arms: int, *args, **kwargs):
+    def __init__(self, n_arms: int, *args, **kwargs) -> None:
         raise NotImplementedError
 
     @abstractmethod
@@ -40,7 +40,7 @@ class Bandit(GenericBandit):
 class ContextualBandit(GenericBandit):
 
     @abstractmethod
-    def __init__(self, n_arms: int, *args, **kwargs):
+    def __init__(self, n_arms: int, *args, **kwargs) -> None:
         raise NotImplementedError
 
     @abstractmethod

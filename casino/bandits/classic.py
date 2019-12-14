@@ -7,14 +7,14 @@ from casino.bandits.base import Bandit
 
 class EpsilonGreedy(Bandit):
 
-    def __init__(self, n_arms: int, epsilon: float):
+    def __init__(self, n_arms: int, epsilon: float) -> None:
         self._shots = 2 * np.ones((n_arms,))
         self._hits = np.ones((n_arms,))
         self.epsilon = epsilon
         self.n_arms = n_arms
 
     @property
-    def theta(self):
+    def theta(self) -> np.ndarray:
         return self._hits / self._shots
 
     def draw(self) -> int:
@@ -31,14 +31,14 @@ class EpsilonGreedy(Bandit):
 
 class ThompsonSampling(Bandit):
 
-    def __init__(self, n_arms: int, epsilon: float):
+    def __init__(self, n_arms: int, epsilon: float) -> None:
         self._shots = 2 * np.zeros((n_arms,))
         self._hits = np.zeros((n_arms,))
         self.epsilon = epsilon
         self.n_arms = n_arms
 
     @property
-    def _misses(self):
+    def _misses(self) -> np.ndarray:
         return self._shots - self._hits
 
     def draw(self) -> int:
@@ -53,7 +53,7 @@ class ThompsonSampling(Bandit):
 
 class UCB1(Bandit):
 
-    def __init__(self, n_arms: int):
+    def __init__(self, n_arms: int) -> None:
         self.n_arms = n_arms
 
         self._shots = 2 * np.zeros((n_arms,))
@@ -68,7 +68,7 @@ class UCB1(Bandit):
         )
 
     @property
-    def theta(self):
+    def theta(self) -> np.array:
         return self._hits / self._shots
 
     def draw(self) -> int:
