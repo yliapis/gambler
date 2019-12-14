@@ -2,10 +2,10 @@
 import numpy as np
 from scipy import stats
 
-from casino.bandits.base import Agent
+from casino.bandits.base import BanditAgent
 
 
-class EpsilonGreedy(Agent):
+class EpsilonGreedy(BanditAgent):
 
     def __init__(self, n_arms: int, epsilon: float) -> None:
         self._shots = 2 * np.ones((n_arms,))
@@ -29,12 +29,11 @@ class EpsilonGreedy(Agent):
         self._hits[arm] += 1
 
 
-class ThompsonSampling(Agent):
+class ThompsonSampling(BanditAgent):
 
-    def __init__(self, n_arms: int, epsilon: float) -> None:
+    def __init__(self, n_arms: int) -> None:
         self._shots = 2 * np.ones((n_arms,))
         self._hits = np.ones((n_arms,))
-        self.epsilon = epsilon
         self.n_arms = n_arms
 
     @property
@@ -51,7 +50,7 @@ class ThompsonSampling(Agent):
         self._hits[arm] += 1
 
 
-class UCB1(Agent):
+class UCB1(BanditAgent):
 
     def __init__(self, n_arms: int) -> None:
         self.n_arms = n_arms
@@ -83,3 +82,27 @@ class UCB1(Agent):
 
     def reward(self, arm: int) -> None:
         self._hits[arm] += 1
+
+
+class Exp3(BanditAgent):
+
+    def __init__(self, n_arms: int, gamma: float) -> None:
+        self.n_arms = n_arms
+        self.gamma = gamma
+
+        self.__arms = np.arange((n_arms,))
+        self.w = np.ones((n_arms,))
+
+    def probabilities(self):
+        return (
+            (1 - self.gamma) * (self.w / np.sum(self.w)) +
+            self.gamma * (self.gamma / self.n_arms)
+        )
+
+    def draw(self) -> int:
+        return np.random.choice(self.__arms, p=self.probabilities())
+
+    def reward(self, arm: int) -> None:
+        reward_estimate = 1 / self.probabilities()[arm]
+        self.w[arm] *= np.exp(self.gamma * reward_estimate / self.n_arms)
+
