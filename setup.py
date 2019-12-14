@@ -9,4 +9,5 @@ setup(
     author_email="yliapis652@gmail.com",
     license="MIT",
     packages=find_packages(),
+    zip_safe=False,  # for mypy
 )
