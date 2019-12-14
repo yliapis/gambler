@@ -2,5 +2,5 @@
 import numpy as np
 from scipy import stats
 
-from casino.bandits.base import BanditAgent
+from casino.agents.base import BanditAgent
 
