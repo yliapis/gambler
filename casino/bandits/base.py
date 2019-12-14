@@ -6,8 +6,10 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
+from typing import overload
 
-class GenericBandit(ABC):
+
+class Agent(ABC):
 
     @abstractmethod
     def __init__(self, n_arms: int, *args, **kwargs) -> None:
@@ -18,35 +20,39 @@ class GenericBandit(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def reward(self, arm: int, *args, **kwargs) -> None:
+    def reward(self, arm: int, reward: float, *args, **kwargs) -> None:
         raise NotImplementedError
 
 
-class Bandit(GenericBandit):
+class BanditAgent(Agent):
 
     @abstractmethod
     def __init__(self, n_arms: int, *args, **kwargs) -> None:
         raise NotImplementedError
 
+    @overload
     @abstractmethod
     def draw(self) -> int:
         raise NotImplementedError
 
+    @overload
     @abstractmethod
     def reward(self, arm: int) -> None:
         raise NotImplementedError
 
 
-class ContextualBandit(GenericBandit):
+class ContextualBanditAgent(Agent):
 
     @abstractmethod
     def __init__(self, n_arms: int, *args, **kwargs) -> None:
         raise NotImplementedError
 
+    @overload
     @abstractmethod
     def draw(self, context: np.ndarray) -> int:
         raise NotImplementedError
 
+    @overload
     @abstractmethod
     def reward(self, arm: int, context: np.ndarray) -> None:
         raise NotImplementedError

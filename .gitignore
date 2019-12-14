@@ -1,9 +1,11 @@
 # setuptools / distutils related
-dist/*
+build
+dist
 casino.egg-info
 
 # other caching to ignore
-**/__pycache__/*
+**/__pycache__
+*.pyc
 
 # mypy
-.mypy_cache/*
+.mypy_cache

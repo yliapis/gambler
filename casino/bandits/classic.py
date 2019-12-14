@@ -2,10 +2,10 @@
 import numpy as np
 from scipy import stats
 
-from casino.bandits.base import Bandit
+from casino.bandits.base import Agent
 
 
-class EpsilonGreedy(Bandit):
+class EpsilonGreedy(Agent):
 
     def __init__(self, n_arms: int, epsilon: float) -> None:
         self._shots = 2 * np.ones((n_arms,))
@@ -29,11 +29,11 @@ class EpsilonGreedy(Bandit):
         self._hits[arm] += 1
 
 
-class ThompsonSampling(Bandit):
+class ThompsonSampling(Agent):
 
     def __init__(self, n_arms: int, epsilon: float) -> None:
-        self._shots = 2 * np.zeros((n_arms,))
-        self._hits = np.zeros((n_arms,))
+        self._shots = 2 * np.ones((n_arms,))
+        self._hits = np.ones((n_arms,))
         self.epsilon = epsilon
         self.n_arms = n_arms
 
@@ -51,13 +51,13 @@ class ThompsonSampling(Bandit):
         self._hits[arm] += 1
 
 
-class UCB1(Bandit):
+class UCB1(Agent):
 
     def __init__(self, n_arms: int) -> None:
         self.n_arms = n_arms
 
-        self._shots = 2 * np.zeros((n_arms,))
-        self._hits = np.zeros((n_arms,))
+        self._shots = 2 * np.ones((n_arms,))
+        self._hits = np.ones((n_arms,))
         self._timestep = 0
 
     @property    
