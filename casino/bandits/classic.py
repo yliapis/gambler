@@ -51,12 +51,10 @@ class ThompsonSampling(Bandit):
         self._hits[arm] += 1
 
 
-class UCB(Bandit):
+class UCB1(Bandit):
 
-    def __init__(self, n_arms: int, variant: str="UCB1"):
-
+    def __init__(self, n_arms: int):
         self.n_arms = n_arms
-        self.variant = variant
 
         self._shots = 2 * np.zeros((n_arms,))
         self._hits = np.zeros((n_arms,))
@@ -64,13 +62,10 @@ class UCB(Bandit):
 
     @property    
     def _uncertainty(self) -> np.array:
-        if self.variant == "UCB1":
-            return np.sqrt(
-                (2 * np.log(self._timestep + 1)) /
-                self._shots
-            )
-        else:
-            raise NotImplementedError
+        return np.sqrt(
+            (2 * np.log(self._timestep + 1)) /
+            self._shots
+        )
 
     @property
     def theta(self):
