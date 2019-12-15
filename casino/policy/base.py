@@ -18,10 +18,9 @@ class Policy(ABC):
     def sample(self) -> int:
         return np.argmax(self.scores())
 
-    def sample_k(self, k: int=1): -> Sequence[int]:
+    def sample_k(self, k: int=1) -> Sequence[int]:
         return np.argpartition(-self.scores(), k=k)[:k]
 
     @abstractmethod
     def reward(self, arm: int, reward: float=1):
         pass
-
