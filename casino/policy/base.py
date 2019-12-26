@@ -6,21 +6,61 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from typing import Optional, Sequence, Union
-
 
 class Policy(ABC):
 
     @abstractmethod
-    def scores(self) -> Sequence[float]:
+    def get_scores(self) -> np.ndarray:
+        """
+        This is an array of reward scores for each arm. It may either
+        be drawn stochastically with each call or be deterministic.
+        This is used by the policy to select an arm.
+
+        Returns
+        -------
+        scores : np.array of float
+            array of scores for each arm.
+        """
         raise NotImplementedError
 
     def sample(self) -> int:
-        return np.argmax(self.scores())
+        """
+        Draw an arm from the multi-arm bandit.
 
-    def sample_k(self, k: int=1) -> Sequence[int]:
-        return np.argpartition(-self.scores(), k=k)[:k]
+        Returns
+        -------
+        arm : int
+            integer id of arm drawn
+        """
+        return np.argmax(self.get_scores())
+
+    def sample_k(self, k: int=1) -> np.ndarray:
+        """
+        Draw multiple arms from the multi-arm bandit.
+
+        Returns
+        -------
+        arms : array of int
+            sequence of arms drawn in order of importance
+        """
+        return np.sorted(
+            np.argpartition(
+                -self.get_scores(),
+                k=k,
+            )[:k],
+        )[::-1]
 
     @abstractmethod
-    def reward(self, arm: int, reward: float=1):
-        pass
+    def reward(self, arm: int, reward: float=1) -> None:
+        """
+        Set a reward for a given arm. In the case of the bernoulli bandit,
+        a miss can be a reward of 0, and a hit can be a reward of 1.
+
+        Parameters
+        ----------
+        arm : int
+            integer id of arm to reward
+        reward : float
+            size of reward
+        """
+        raise NotImplementedError
