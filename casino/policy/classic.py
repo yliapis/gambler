@@ -13,17 +13,21 @@ class EpsilonGreedy(Policy):
         self.epsilon = epsilon
         self.n_arms = n_arms
 
-    def scores(self) -> np.ndarray:
+    def get_scores(self) -> np.ndarray:
         return self._hits / self._shots
 
-    def draw(self) -> int:
+    def sample(self) -> int:
         if np.random.rand() < self.epsilon:  # explore
             return np.random.randint(self.n_arms)
         else:  # exploit
             return np.argmax(self.scores())
 
-    def reward(self, arm: int) -> None:
-        self._hits[arm] += 1
+    def sample_k(self, k: int=1) -> int:
+        raise NotImplementedError
+
+    def reward(self, arm: int, reward :float=1.0) -> None:
+        self._shots[arm] += 1
+        self._hits[arm] += reward
 
 
 class ThompsonSampling(Policy):
@@ -37,17 +41,12 @@ class ThompsonSampling(Policy):
     def _misses(self) -> np.ndarray:
         return self._shots - self._hits
 
-    def scores(self):
+    def get_scores(self) -> np.ndarray:
         return stats.beta.rvs(self._hits, self._misses)
 
-    def draw(self) -> int:
-        sample = self.scores()
-        arm = np.argmax(sample)
+    def reward(self, arm: int, reward: float=1.0) -> None:
         self._shots[arm] += 1
-        return arm
-
-    def reward(self, arm: int) -> None:
-        self._hits[arm] += 1
+        self._hits[arm] += reward
 
 
 class UCB1(Policy):
@@ -65,19 +64,14 @@ class UCB1(Policy):
             self._shots
         )
 
-    def scores(self) -> np.array:
+    def get_scores(self) -> np.array:
         return (self._hits / self._shots) + self._uncertainty()
 
-    def draw(self) -> int:
-        arm = np.argmax(self.scores())
-
+    def reward(self, arm: int, reward: float=1.0) -> None:
         self._shots[arm] += 1
+        self._hits[arm] += reward
+
         self._timestep += 1
-
-        return arm
-
-    def reward(self, arm: int) -> None:
-        self._hits[arm] += 1
 
 
 class Exp3(Policy):
@@ -95,10 +89,18 @@ class Exp3(Policy):
             self.gamma * (self.gamma / self.n_arms)
         )
 
-    def draw(self) -> int:
-        return np.random.choice(self.__arms, p=self.scores())
+    def sample(self) -> int:
+        return np.random.choice(self.__arms, p=self.get_scores())
+
+    def sample_k(self, k: int=1) -> np.ndarray:
+        return np.random.choice(
+            self.__arms,
+            p=self.get_scores(),
+            size=(k,),
+            replace=False,
+        )
 
     def reward(self, arm: int) -> None:
-        reward_estimate = 1 / self.probabilities()[arm]
+        reward_estimate = 1 / self.get_scores()[arm]
         self.w[arm] *= np.exp(self.gamma * reward_estimate / self.n_arms)
 
