@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 class Policy(ABC):
 
     @abstractmethod
-    def get_scores(self) -> np.ndarray:
+    def _get_scores(self) -> np.ndarray:
         """
         This is an array of reward scores for each arm. It may either
         be drawn stochastically with each call or be deterministic.

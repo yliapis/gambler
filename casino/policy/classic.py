@@ -13,7 +13,7 @@ class EpsilonGreedy(Policy):
         self.epsilon = epsilon
         self.n_arms = n_arms
 
-    def get_scores(self) -> np.ndarray:
+    def _get_scores(self) -> np.ndarray:
         return self._hits / self._shots
 
     def sample(self) -> int:
@@ -41,7 +41,7 @@ class ThompsonSampling(Policy):
     def _misses(self) -> np.ndarray:
         return self._shots - self._hits
 
-    def get_scores(self) -> np.ndarray:
+    def _get_scores(self) -> np.ndarray:
         return stats.beta.rvs(self._hits, self._misses)
 
     def reward(self, arm: int, reward: float=1.0) -> None:
@@ -64,7 +64,7 @@ class UCB1(Policy):
             self._shots
         )
 
-    def get_scores(self) -> np.array:
+    def _get_scores(self) -> np.array:
         return (self._hits / self._shots) + self._uncertainty()
 
     def reward(self, arm: int, reward: float=1.0) -> None:
@@ -83,7 +83,7 @@ class Exp3(Policy):
         self.__arms = np.arange((n_arms,))
         self.w = np.ones((n_arms,))
 
-    def scores(self):
+    def _get_scores(self):
         return (
             (1 - self.gamma) * (self.w / np.sum(self.w)) +
             self.gamma * (self.gamma / self.n_arms)
