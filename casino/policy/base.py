@@ -32,7 +32,7 @@ class Policy(ABC):
         arm : int
             integer id of arm drawn
         """
-        return np.argmax(self.get_scores())
+        return np.argmax(self._get_scores())
 
     def sample_k(self, k: int=1) -> np.array:
         """
@@ -45,7 +45,7 @@ class Policy(ABC):
         """
         return np.sorted(
             np.argpartition(
-                -self.get_scores(),
+                -self._get_scores(),
                 k=k,
             )[:k],
         )[::-1]
