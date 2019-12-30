@@ -5,15 +5,24 @@ from scipy import stats
 from casino.policy.base import Policy
 
 
+class Random(Policy):
+
+    def __init__(self, n_arms: int) -> None:
+        self.n_arms = n_arms
+
+    def _get_scores(self) -> np.array:
+        return np.random.rand(self.n_arms)
+
+
 class EpsilonGreedy(Policy):
 
-    def __init__(self, n_arms: int, epsilon: float) -> None:
+    def __init__(self, n_arms: int, epsilon: float=0.01) -> None:
         self._shots = 2 * np.ones((n_arms,))
         self._hits = np.ones((n_arms,))
         self.epsilon = epsilon
         self.n_arms = n_arms
 
-    def _get_scores(self) -> np.ndarray:
+    def _get_scores(self) -> np.array:
         return self._hits / self._shots
 
     def sample(self) -> int:
@@ -38,7 +47,7 @@ class ThompsonSampling(Policy):
         self.n_arms = n_arms
 
     @property
-    def _misses(self) -> np.ndarray:
+    def _misses(self) -> np.array:
         return self._shots - self._hits
 
     def _get_scores(self) -> np.ndarray:
@@ -92,7 +101,7 @@ class Exp3(Policy):
     def sample(self) -> int:
         return np.random.choice(self.__arms, p=self.get_scores())
 
-    def sample_k(self, k: int=1) -> np.ndarray:
+    def sample_k(self, k: int=1) -> np.array:
         return np.random.choice(
             self.__arms,
             p=self.get_scores(),

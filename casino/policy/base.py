@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 class Policy(ABC):
 
     @abstractmethod
-    def _get_scores(self) -> np.ndarray:
+    def _get_scores(self) -> np.array:
         """
         This is an array of reward scores for each arm. It may either
         be drawn stochastically with each call or be deterministic.
@@ -34,7 +34,7 @@ class Policy(ABC):
         """
         return np.argmax(self.get_scores())
 
-    def sample_k(self, k: int=1) -> np.ndarray:
+    def sample_k(self, k: int=1) -> np.array:
         """
         Draw multiple arms from the multi-arm bandit.
 
