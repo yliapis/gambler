@@ -51,7 +51,7 @@ class Policy(ABC):
         )[::-1]
 
     @abstractmethod
-    def reward(self, arm: int, reward: float=1) -> None:
+    def reward(self, arm: int, reward: float=1.0) -> None:
         """
         Set a reward for a given arm. In the case of the bernoulli bandit,
         a miss can be a reward of 0, and a hit can be a reward of 1.

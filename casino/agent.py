@@ -38,4 +38,6 @@ class Agent:
 
     def reward(self, reward: float=0.0, arm: Optional[int]=None) -> None:
         self.total_reward += reward
+        if arm is None:
+            arm = self.last_drawn
         self.policy.reward(arm, reward)
