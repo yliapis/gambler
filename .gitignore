@@ -4,8 +4,9 @@ dist
 casino.egg-info
 
 # other caching to ignore
-**/__pycache__
+__pycache__
 *.pyc
+.ipynb_checkpoints
 
 # mypy
 .mypy_cache
