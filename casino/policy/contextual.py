@@ -73,3 +73,32 @@ class LinUCB(ContextualPolicy):
         self._b[arm] += reward * x
         self._A[arm] += np.outer(x, x)
         self._Ainv[arm] = np.linalg.inv(self._A[arm])
+
+
+class NaiveBayes(ContextualPolicy):
+
+    def __init__(
+        self,
+        n_arms: int,
+        context_dim: Optional[int]=None
+    ) -> None:
+
+    raise NotImplementedError("WIP")
+
+
+class AdPredictor(ContextualPolicy):
+    """
+    Based on Microsoft Research's paper
+    paper:
+        Graepel et al 2010: Web-Scale Bayesian Click-Through Rate Prediction for Sponsored Search
+            Advertising in Microsoft’s Bing Search Engine
+        https://www.microsoft.com/en-us/research/wp-content/uploads/
+            2010/06/AdPredictor-ICML-2010-final.pdf
+    """
+    def __init__(
+        self,
+        n_arms: int,
+        context_dim: Optional[int]=None
+    ) -> None:
+
+    raise NotImplementedError("WIP")
