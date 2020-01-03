@@ -82,8 +82,7 @@ class NaiveBayes(ContextualPolicy):
         n_arms: int,
         context_dim: Optional[int]=None
     ) -> None:
-
-    raise NotImplementedError("WIP")
+        raise NotImplementedError("WIP")
 
 
 class AdPredictor(ContextualPolicy):
@@ -164,7 +163,7 @@ class AdPredictor(ContextualPolicy):
         Sigma = beta*2 + x @ sig2
 
         mu_next = mu + y * x * (sig2 / Sigma) * self.__v(y * x @ mu / Sigma)
-        sig2_next = sig2 * (1 - x * (sig2 / Sigma) * self.__w(y * x @ mu / Sigma)
+        sig2_next = sig2 * (1 - x * (sig2 / Sigma) * self.__w(y * x @ mu / Sigma))
 
         # set the updated values internally
         self.mu[arm] = mu_next

@@ -45,14 +45,12 @@ class Policy(ABC):
         Returns
         -------
         arms : array of int
-            sequence of arms drawn in order of importance
+            k arms drawn (random order)
         """
-        return np.sorted(
-            np.argpartition(
-                -self._get_scores(),
-                k=k,
-            )[:k],
-        )[::-1]
+        return np.argpartition(
+            -self._get_scores(),
+            k=k,
+        )[:k]
 
     @abstractmethod
     def reward(self, arm: int, reward: float=1.0) -> None:
@@ -107,7 +105,7 @@ class ContextualPolicy(ABC):
         """
         return np.argmax(self._get_scores(context))
 
-    def sample_k(self, k: int=1, context: np.array) -> np.array:
+    def sample_k(self, context: np.array, k: int=1) -> np.array:
         """
         Draw multiple arms from the multi-arm bandit.
 
@@ -119,14 +117,12 @@ class ContextualPolicy(ABC):
         Returns
         -------
         arms : array of int
-            sequence of arms drawn in order of importance
+            k arms drawn (random order)
         """
-        return np.sorted(
-            np.argpartition(
-                -self._get_scores(context),
-                k=k,
-            )[:k],
-        )[::-1]
+        return np.argpartition(
+            -self._get_scores(context),
+            k=k,
+        )[:k]
 
     @abstractmethod
     def reward(self, arm: int, context: np.array, reward: float=1.0) -> None:
