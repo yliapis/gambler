@@ -139,10 +139,13 @@ class AdPredictor(ContextualPolicy):
 
         x = context
         beta = self._beta
+        mu = self.mu
+        sig2 = self.sig2
 
-        w = stats.norm.rvs(loc=self.mu, scale=self.sig2)
+        w = stats.norm.rvs(loc=mu, scale=sig2)
+        Sigma = beta*2 + x @ sig2
 
-        return stats.norm.cdf(w @ x / beta)
+        return stats.norm.cdf(w @ x / Sigma)
 
     def reward(
         self,
