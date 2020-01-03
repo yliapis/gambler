@@ -53,7 +53,7 @@ class LinUCB(ContextualPolicy):
         
         self._b = np.zeros((self.n_arms, context_dim))
 
-    def _get_scores(self, context: np.array) -> np.array:
+    def _get_scores(self, context: np.ndarray) -> np.ndarray:
 
         if not hasattr(self, "_context_dim"):
             self.__init_algo(len(context))
@@ -131,7 +131,7 @@ class AdPredictor(ContextualPolicy):
     def __v(self, x: float):
         return stats.norm.pdf(x) / stats.norm.cdf(x)
 
-    def _get_scores(self, context: np.array) -> np.array:
+    def _get_scores(self, context: np.ndarray) -> np.ndarray:
 
         if not hasattr(self, "_context_dim"):
             self.__init_algo(len(context))
@@ -149,7 +149,7 @@ class AdPredictor(ContextualPolicy):
     def reward(
         self,
         arm: int,
-        context: np.array,
+        context: np.ndarray,
         reward: float=1.0
     ) -> None:
 

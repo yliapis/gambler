@@ -25,7 +25,7 @@ class EpsilonGreedy(Policy):
         self.epsilon = epsilon
         self.n_arms = n_arms
 
-    def _get_scores(self) -> np.array:
+    def _get_scores(self) -> np.ndarray:
         return self._hits / self._shots
 
     def sample(self) -> int:
@@ -50,7 +50,7 @@ class ThompsonSampling(Policy):
         self.n_arms = n_arms
 
     @property
-    def _misses(self) -> np.array:
+    def _misses(self) -> np.ndarray:
         return self._shots - self._hits
 
     def _get_scores(self) -> np.ndarray:
@@ -70,13 +70,13 @@ class UCB1(Policy):
         self._hits = np.ones((n_arms,))
         self._timestep = 0
 
-    def _uncertainty(self) -> np.array:
+    def _uncertainty(self) -> np.ndarray:
         return np.sqrt(
             (2 * np.log(self._timestep + 1)) /
             self._shots
         )
 
-    def _get_scores(self) -> np.array:
+    def _get_scores(self) -> np.ndarray:
         return (self._hits / self._shots) + self._uncertainty()
 
     def reward(self, arm: int, reward: float=1.0) -> None:
@@ -104,7 +104,7 @@ class Exp3(Policy):
     def sample(self) -> int:
         return np.random.choice(self.__arms, p=self._get_scores())
 
-    def sample_k(self, k: int=1) -> np.array:
+    def sample_k(self, k: int=1) -> np.ndarray:
         return np.random.choice(
             self.__arms,
             p=self._get_scores(),

@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 class Policy(ABC):
 
     @abstractmethod
-    def _get_scores(self) -> np.array:
+    def _get_scores(self) -> np.ndarray:
         """
         This is an array of reward scores for each arm. It may either
         be drawn stochastically with each call or be deterministic.
@@ -38,7 +38,7 @@ class Policy(ABC):
         """
         return np.argmax(self._get_scores())
 
-    def sample_k(self, k: int=1) -> np.array:
+    def sample_k(self, k: int=1) -> np.ndarray:
         """
         Draw multiple arms from the multi-arm bandit.
 
@@ -71,7 +71,7 @@ class Policy(ABC):
 class ContextualPolicy(ABC):
 
     @abstractmethod
-    def _get_scores(self, context: np.array) -> np.array:
+    def _get_scores(self, context: np.ndarray) -> np.ndarray:
         """
         This is an array of reward scores for each arm. It may either
         be drawn stochastically with each call or be deterministic.
@@ -89,7 +89,7 @@ class ContextualPolicy(ABC):
         """
         raise NotImplementedError
 
-    def sample(self, context: np.array) -> int:
+    def sample(self, context: np.ndarray) -> int:
         """
         Draw an arm from the multi-arm bandit.
 
@@ -105,7 +105,7 @@ class ContextualPolicy(ABC):
         """
         return np.argmax(self._get_scores(context))
 
-    def sample_k(self, context: np.array, k: int=1) -> np.array:
+    def sample_k(self, context: np.ndarray, k: int=1) -> np.ndarray:
         """
         Draw multiple arms from the multi-arm bandit.
 
@@ -125,7 +125,7 @@ class ContextualPolicy(ABC):
         )[:k]
 
     @abstractmethod
-    def reward(self, arm: int, context: np.array, reward: float=1.0) -> None:
+    def reward(self, arm: int, context: np.ndarray, reward: float=1.0) -> None:
         """
         Set a reward for a given arm. In the case of the bernoulli bandit,
         a miss can be a reward of 0, and a hit can be a reward of 1.
