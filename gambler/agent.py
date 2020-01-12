@@ -1,15 +1,15 @@
 
 from typing import Any, Dict, Optional, Tuple
 
-import casino.policy
+import gambler.policy
 
 
 POLICY_TABLE = {
-    "epsilon_greedy": casino.policy.EpsilonGreedy,
-    "exp3": casino.policy.Exp3,
-    "random": casino.policy.Random,
-    "thompson_sampling": casino.policy.ThompsonSampling,
-    "ucb1": casino.policy.UCB1,
+    "epsilon_greedy": gambler.policy.EpsilonGreedy,
+    "exp3": gambler.policy.Exp3,
+    "random": gambler.policy.Random,
+    "thompson_sampling": gambler.policy.ThompsonSampling,
+    "ucb1": gambler.policy.UCB1,
 }
 
 
