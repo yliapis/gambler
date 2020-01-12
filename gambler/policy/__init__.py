@@ -6,3 +6,7 @@ from .classic import (
     ThompsonSampling,
     UCB1,
 )
+from .contextual import (
+    AdPredictor,
+    LinUCB,
+)

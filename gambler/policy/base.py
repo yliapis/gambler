@@ -10,6 +10,7 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
+from typing import Union
 
 class Policy(ABC):
 
@@ -140,3 +141,7 @@ class ContextualPolicy(ABC):
             feature vector representing the context
         """
         raise NotImplementedError
+
+
+def is_contextual(policy: Union[Policy, ContextualPolicy]) -> bool:
+    return isinstance(policy, ContextualPolicy)
