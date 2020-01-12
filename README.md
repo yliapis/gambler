@@ -1,4 +1,4 @@
-# Gambler
+# gambler
 
 Gambler is a python library for multi-arm bandit algorithms.
 Its design philosophy is to provide a simple and extensible
